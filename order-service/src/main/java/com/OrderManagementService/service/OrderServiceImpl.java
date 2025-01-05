@@ -1,5 +1,7 @@
 package com.OrderManagementService.service;
 
+import com.CustomerManagement.entity.Customer;
+import com.OrderManagementService.client.CustomerFeignClient;
 import com.OrderManagementService.entity.Order;
 import com.OrderManagementService.entity.OrderList;
 import com.OrderManagementService.exception.OrderException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.OrderManagementService.constants.Constants.EXCEPTION_MESSAGE;
@@ -28,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CustomerFeignClient customerFeignClient;
+
 
     @Override
     public List<OrderList> getOrderDropdownList() {
@@ -39,6 +45,16 @@ public class OrderServiceImpl implements OrderService {
             log.info(METHOD_NAME + EXCEPTION_MESSAGE, e.getMessage(), e);
             throw new OrderException(INTERNAL_SERVER_GET_ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+        log.info("calling customerFeignClient to get the customer details");
+        Customer customer = customerFeignClient.getCustomerById(customerId);
+        if (Objects.isNull(customer)) {
+            throw new OrderException("customer Id not found");
+        } else
+            return orderRepository.findByCustomerId(customerId);
     }
 
     @Override

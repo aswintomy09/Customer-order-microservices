@@ -9,5 +9,7 @@ import java.util.List;
 public interface OrderService {
     List<OrderList> getOrderDropdownList();
 
+    List<Order> getOrdersByCustomerId(Long customerId);
+
     List<Order> saveOrderForCustomer(List<OrderModel> orders);
 }

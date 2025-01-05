@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,15 @@ public class OrderController {
         log.info(METHOD_NAME + "calling getOrderDropdownList method ");
         List<OrderList> orderList = orderService.getOrderDropdownList();
         return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+    @GetMapping("/order/{customerId}")
+    public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable("customerId") Long customerId) {
+        final String METHOD_NAME = this.getClass().getName() + " :: getOrdersByCustomerId ::";
+        log.info(METHOD_NAME + "calling getOrdersByCustomerId" +
+                " method with " + "customerId :: {} ", customerId);
+        List<Order> savedOrderList = orderService.getOrdersByCustomerId(customerId);
+        return new ResponseEntity<>(savedOrderList, HttpStatus.OK);
     }
 
     @PostMapping(value = "/order")

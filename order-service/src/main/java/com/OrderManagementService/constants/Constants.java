@@ -6,6 +6,8 @@ public class Constants {
     public static final String CUSTOMER_URL = "/api/v1";
     public static final String ORDER_URL = "/api/v1/order";
 
+    public static final String LOCALHOST_8080 = "http://localhost:8080";
+
     // message constants
     public static final String CUSTOMER_DOES_NOT_EXIST = "Customer does not exist with id";
     public static final String EXCEPTION_MESSAGE = "exception :: {}";
